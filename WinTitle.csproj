@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <LangVersion>8.0</LangVersion>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
     <OutputType>Library</OutputType>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.1.0</Version>
     <Authors>Azure Gem</Authors>
     <Product>WindowTitleChanger</Product>
     <Copyright>Copyright (c) 2021 Azure Gem</Copyright>
@@ -19,6 +19,7 @@
     <AssemblyName>WinTitle</AssemblyName>
     <RootNamespace>WinTitle</RootNamespace>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -32,7 +33,7 @@
 
   <ItemGroup>
     <Reference Include="Dalamud">
-      <HintPath>$(AppData)\XIVLauncher\addon\Hooks\Dalamud.dll</HintPath>
+      <HintPath>$(AppData)\XIVLauncher\addon\Hooks\dev\Dalamud.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
