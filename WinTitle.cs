@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 using Dalamud.Plugin;
 using System.Diagnostics;
 using Dalamud.Game.Command;
+using Dalamud.IoC;
+using Dalamud.Logging;
 
 namespace WinTitle
 {
@@ -15,19 +17,20 @@ namespace WinTitle
         private readonly IntPtr Handle;
 
         public string Name => "Window Title Changer";
-        private DalamudPluginInterface PluginInterface { get; set; }
 
-        public WinTitle()
+        [PluginService]
+        private DalamudPluginInterface PluginInterface { get; set; }
+        private CommandManager commandManager { get; init; }
+
+        public WinTitle(CommandManager commandManager)
         {
             using Process process = Process.GetCurrentProcess();
             this.Handle = process.MainWindowHandle;
             this.OriginalTitle = process.MainWindowTitle;
-        }
 
-        public void Initialize(DalamudPluginInterface pluginInterface)
-        {
-            this.PluginInterface = pluginInterface;
-            pluginInterface.CommandManager.AddHandler("/wintitle", new CommandInfo(WintitleCommand)
+            this.commandManager = commandManager;
+
+            this.commandManager.AddHandler("/wintitle", new CommandInfo(WintitleCommand)
             {
                 ShowInHelp = true,
                 HelpMessage = "Change window title. Empty to revert.",
@@ -50,7 +53,7 @@ namespace WinTitle
             this.IsDisposed = true;
 
             this.SetTitle(null);
-            this.PluginInterface.CommandManager.RemoveHandler("/wintitle");
+            commandManager.RemoveHandler("/wintitle");
             this.PluginInterface.Dispose();
 
             GC.SuppressFinalize(this);
