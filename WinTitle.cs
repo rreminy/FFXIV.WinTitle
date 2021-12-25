@@ -8,10 +8,10 @@ using Dalamud.Logging;
 
 namespace WinTitle
 {
-    public class WinTitle : IDalamudPlugin
+    public sealed class WinTitle : IDalamudPlugin
     {
-        [DllImport("user32.dll")]
-        static extern int SetWindowText(IntPtr hWnd, string text);
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern bool SetWindowText(IntPtr hwnd, string lpString);
 
         private readonly string OriginalTitle;
         private readonly IntPtr Handle;
@@ -19,25 +19,24 @@ namespace WinTitle
         public string Name => "Window Title Changer";
 
         [PluginService]
-        private DalamudPluginInterface PluginInterface { get; set; }
-        private CommandManager commandManager { get; init; }
+        private DalamudPluginInterface PluginInterface { get; set; } = default!;
+        [PluginService]
+        private CommandManager CommandManager { get; set; } = default!;
 
-        public WinTitle(CommandManager commandManager)
+        public WinTitle()
         {
             using Process process = Process.GetCurrentProcess();
             this.Handle = process.MainWindowHandle;
             this.OriginalTitle = process.MainWindowTitle;
 
-            this.commandManager = commandManager;
-
-            this.commandManager.AddHandler("/wintitle", new CommandInfo(WintitleCommand)
+            this.CommandManager.AddHandler("/wintitle", new CommandInfo(WintitleCommand)
             {
                 ShowInHelp = true,
                 HelpMessage = "Change window title. Empty to revert.",
             });
         }
 
-        public void SetTitle(string title)
+        public void SetTitle(string? title)
         {
             if (string.IsNullOrWhiteSpace(title)) title = this.OriginalTitle;
             if (string.IsNullOrWhiteSpace(title)) title = "FINAL FANTASY XIV";
@@ -53,7 +52,7 @@ namespace WinTitle
             this.IsDisposed = true;
 
             this.SetTitle(null);
-            commandManager.RemoveHandler("/wintitle");
+            CommandManager.RemoveHandler("/wintitle");
             this.PluginInterface.Dispose();
 
             GC.SuppressFinalize(this);
