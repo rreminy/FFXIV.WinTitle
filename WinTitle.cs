@@ -19,8 +19,6 @@ namespace WinTitle
         public string Name => "Window Title Changer";
 
         [PluginService]
-        private DalamudPluginInterface PluginInterface { get; set; } = default!;
-        [PluginService]
         private CommandManager CommandManager { get; set; } = default!;
 
         public WinTitle()
@@ -53,8 +51,6 @@ namespace WinTitle
 
             this.SetTitle(null);
             CommandManager.RemoveHandler("/wintitle");
-            this.PluginInterface.Dispose();
-
             GC.SuppressFinalize(this);
         }
         ~WinTitle() => this.Dispose();
