@@ -53,8 +53,6 @@ namespace WinTitle
 
             this.SetTitle(null);
             CommandManager.RemoveHandler("/wintitle");
-            this.PluginInterface.Dispose();
-
             GC.SuppressFinalize(this);
         }
         ~WinTitle() => this.Dispose();
