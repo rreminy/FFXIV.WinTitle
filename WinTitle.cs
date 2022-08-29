@@ -13,19 +13,21 @@ namespace WinTitle
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern bool SetWindowText(IntPtr hwnd, string lpString);
 
-        private readonly string OriginalTitle;
-        private readonly IntPtr Handle;
+        private readonly string _originalTitle;
+        private readonly IntPtr _handle;
 
         public string Name => "Window Title Changer";
 
         [PluginService]
-        private CommandManager CommandManager { get; set; } = default!;
+        private CommandManager CommandManager { get; } = default!;
 
-        public WinTitle()
+        public WinTitle(DalamudPluginInterface pluginInterface)
         {
+            pluginInterface.Inject(this);
+
             using Process process = Process.GetCurrentProcess();
-            this.Handle = process.MainWindowHandle;
-            this.OriginalTitle = process.MainWindowTitle;
+            this._handle = process.MainWindowHandle;
+            this._originalTitle = process.MainWindowTitle;
 
             this.CommandManager.AddHandler("/wintitle", new CommandInfo(WintitleCommand)
             {
@@ -36,9 +38,9 @@ namespace WinTitle
 
         public void SetTitle(string? title)
         {
-            if (string.IsNullOrWhiteSpace(title)) title = this.OriginalTitle;
+            if (string.IsNullOrWhiteSpace(title)) title = this._originalTitle;
             if (string.IsNullOrWhiteSpace(title)) title = "FINAL FANTASY XIV";
-            try { SetWindowText(this.Handle, title.Trim()); } catch (Exception ex) { PluginLog.LogError(ex, $"Failed to set Window Title to {title}"); }
+            try { SetWindowText(this._handle, title.Trim()); } catch (Exception ex) { PluginLog.LogError(ex, $"Failed to set Window Title to {title}"); }
         }
 
         private void WintitleCommand(string _, string title) => this.SetTitle(title);
@@ -51,8 +53,6 @@ namespace WinTitle
 
             this.SetTitle(null);
             CommandManager.RemoveHandler("/wintitle");
-            GC.SuppressFinalize(this);
         }
-        ~WinTitle() => this.Dispose();
     }
 }
