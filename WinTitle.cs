@@ -19,7 +19,7 @@ namespace WinTitle
         public string Name => "Window Title Changer";
 
         [PluginService]
-        private CommandManager CommandManager { get; } = default!;
+        private CommandManager CommandManager { get; set; } = default!;
 
         public WinTitle(DalamudPluginInterface pluginInterface)
         {
