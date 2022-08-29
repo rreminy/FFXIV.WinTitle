@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows7</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <LangVersion>9.0</LangVersion>
-    <AssemblyVersion>1.0.3.0</AssemblyVersion>
-    <FileVersion>1.0.3.0</FileVersion>
+    <AssemblyVersion>1.0.4.0</AssemblyVersion>
     <OutputType>Library</OutputType>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <Version>1.0.3.0</Version>
     <Authors>Azure Gem</Authors>
     <Product>WindowTitleChanger</Product>
     <Copyright>Copyright (c) 2021 Azure Gem</Copyright>
@@ -20,6 +18,7 @@
     <RootNamespace>WinTitle</RootNamespace>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -36,7 +35,7 @@
 
   <ItemGroup>
     <Reference Include="Dalamud">
-      <HintPath>$(AppData)\XIVLauncher\addon\Hooks\dev\Dalamud.dll</HintPath>
+      <HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
@@ -49,6 +48,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DalamudPackager" Version="2.1.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -104,5 +107,13 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+
+  <Target Name="PackagePlugin" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <DalamudPackager
+            ProjectDir="$(ProjectDir)"
+            OutputPath="$(OutputPath)"
+            AssemblyName="$(AssemblyName)"
+            MakeZip="true"/>
+  </Target>
 
 </Project>
