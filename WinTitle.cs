@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Logging;
+using Dalamud.Plugin.Services;
 
 namespace WinTitle
 {
@@ -16,10 +17,10 @@ namespace WinTitle
         private readonly string _originalTitle;
         private readonly IntPtr _handle;
 
-        public string Name => "Window Title Changer";
-
         [PluginService]
-        private CommandManager CommandManager { get; set; } = default!;
+        private ICommandManager CommandManager { get; set; } = default!;
+        [PluginService]
+        private IPluginLog Logger { get; set; } = default!;
 
         public WinTitle(DalamudPluginInterface pluginInterface)
         {
@@ -40,7 +41,7 @@ namespace WinTitle
         {
             if (string.IsNullOrWhiteSpace(title)) title = this._originalTitle;
             if (string.IsNullOrWhiteSpace(title)) title = "FINAL FANTASY XIV";
-            try { SetWindowText(this._handle, title.Trim()); } catch (Exception ex) { PluginLog.LogError(ex, $"Failed to set Window Title to {title}"); }
+            try { SetWindowText(this._handle, title.Trim()); } catch (Exception ex) { this.Logger.Error(ex, $"Failed to set Window Title to {title}"); }
         }
 
         private void WintitleCommand(string _, string title) => this.SetTitle(title);
