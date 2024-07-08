@@ -22,7 +22,7 @@ namespace WinTitle
         [PluginService]
         private IPluginLog Logger { get; set; } = default!;
 
-        public WinTitle(DalamudPluginInterface pluginInterface)
+        public WinTitle(IDalamudPluginInterface pluginInterface)
         {
             pluginInterface.Inject(this);
 
