@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net8.0-windows</TargetFramework>
     <LangVersion>9.0</LangVersion>
-    <AssemblyVersion>1.0.7.1</AssemblyVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <OutputType>Library</OutputType>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <Authors>Azure Gem</Authors>
+    <Authors>Azure Gem, herulume</Authors>
     <Product>WindowTitleChanger</Product>
     <Copyright>Copyright (c) 2021 Azure Gem</Copyright>
     <Description>Allows you to change your game's window title</Description>
@@ -42,6 +42,22 @@
       <HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
       <Private>false</Private>
     </Reference>
+      <Reference Include="Lumina">
+      <HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Lumina.Excel">
+      <HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
+      <Private>false</Private>
+    </Reference>   
   </ItemGroup>
 
   <ItemGroup>
