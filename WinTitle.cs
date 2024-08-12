@@ -47,17 +47,17 @@ namespace WinTitle
         }
 
         private ConfigWindow ConfigWindow { get; }
-        public static Configuration Config { get; private set; } = default!;
+        public static Configuration Config { get; private set; } = null!;
 
         private CurrentWorldWatcher WorldWatcher { get; }
 
-        [PluginService] private static ICommandManager CommandManager { get; } = default!;
-        [PluginService] public static IPluginLog Logger { get; set; } = default!;
-        [PluginService] public static IClientState ClientState { get; set; } = default!;
+        [PluginService] public static ICommandManager CommandManager { get; private set; } = null!;
+        [PluginService] public static IPluginLog Logger { get; private set; } =  null!;
+        [PluginService] public static IClientState ClientState { get; private set; } =  null!;
 
-        [PluginService] public static IDalamudPluginInterface PluginInterface { get; } = default!;
+        [PluginService] public static IDalamudPluginInterface PluginInterface { get; private set; } = null!;
 
-        [PluginService] public static IFramework Framework { get; private set; } = default!;
+        [PluginService] public static IFramework Framework { get; private set; } =  null!;
 
         private bool IsDisposed { get; set; }
 
