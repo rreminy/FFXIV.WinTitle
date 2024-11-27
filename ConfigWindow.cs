@@ -5,7 +5,7 @@ using ImGuiNET;
 
 namespace WinTitle
 {
-    public class ConfigWindow : Window, IDisposable
+    public class ConfigWindow : Window
     {
         public ConfigWindow() : base("WinTitle Configuration###WTConfig")
         {
@@ -14,11 +14,6 @@ namespace WinTitle
 
             Size = new Vector2(300, 100);
             SizeCondition = ImGuiCond.Always;
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
         }
 
         public override void Draw()

@@ -7,7 +7,7 @@ namespace WinTitle
     public class CurrentWorldWatcher : IDisposable
     {
         private readonly Action _updateTitle;
-        private ushort? _lastCurrentWorld;
+        private uint? _lastCurrentWorld;
 
         public CurrentWorldWatcher(Action updateTitle)
         {
@@ -33,24 +33,11 @@ namespace WinTitle
             _updateTitle();
         }
 
-        private static ushort? getCurrentWorld()
+        private static uint? getCurrentWorld()
         {
             var player = WinTitle.ClientState.LocalPlayer;
-            if (player == null || !player.IsValid()) return null;
-
-            unsafe
-            {
-                try
-                {
-                    var character = (Character*)player.Address;
-                    return character->CurrentWorld;
-                }
-                catch (Exception e)
-                {
-                    WinTitle.Logger.Information("Exception fetching current world.", e);
-                    return null;
-                }
-            }
+            if (player == null || !player.IsValid() || !player.CurrentWorld.IsValid) return null;
+            return player.CurrentWorld.RowId;
         }
     }
 }

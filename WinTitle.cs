@@ -70,7 +70,6 @@ namespace WinTitle
             CommandManager.RemoveHandler("/wintitle");
             WorldWatcher.Dispose();
             _windowSystem.RemoveAllWindows();
-            ConfigWindow.Dispose();
         }
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -93,11 +92,9 @@ namespace WinTitle
         private void SetTitleToLoggedCharacter()
         {
             var player = ClientState.LocalPlayer;
-            var world = "Unknown";
-            if (player == null || !player.IsValid()) return;
-            var worldData = player.CurrentWorld.GameData;
-            if (worldData != null) world = worldData.Name.ToString();
-            SetTitle($"{player.Name}@{world}");
+            if (player == null || !player.IsValid() || !player.CurrentWorld.IsValid) return;
+            var currentWorld = player.CurrentWorld.Value;
+            SetTitle($"{player.Name}@{currentWorld.Name}");
         }
 
         private void WinTitleCommand(string _, string title)
