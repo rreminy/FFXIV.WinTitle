@@ -1,6 +1,5 @@
 using System;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.Character;
 
 namespace WinTitle
 {
@@ -11,7 +10,7 @@ namespace WinTitle
 
         public CurrentWorldWatcher(Action updateTitle)
         {
-            _lastCurrentWorld = getCurrentWorld();
+            // removed setting of _lastCurrentWorld here because it'll just get set in OnFrameworkTick anyway
             _updateTitle = updateTitle;
             WinTitle.Framework.Update += OnFrameworkTick;
         }

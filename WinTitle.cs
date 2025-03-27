@@ -92,7 +92,11 @@ namespace WinTitle
         private void SetTitleToLoggedCharacter()
         {
             var player = ClientState.LocalPlayer;
-            if (player == null || !player.IsValid() || !player.CurrentWorld.IsValid) return;
+            if (player == null || !player.IsValid() || !player.CurrentWorld.IsValid)
+            {
+                SetTitle("");
+                return;
+            };
             var currentWorld = player.CurrentWorld.Value;
             SetTitle($"{player.Name}@{currentWorld.Name}");
         }
